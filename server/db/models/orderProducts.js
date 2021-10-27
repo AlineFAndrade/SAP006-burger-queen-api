@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     qtd: DataTypes.INTEGER
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'orderProducts',
   });
   return orderProducts;
