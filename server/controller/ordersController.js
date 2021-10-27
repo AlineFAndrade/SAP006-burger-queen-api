@@ -36,8 +36,46 @@ const postOrders = (req, res) => {
   const orderToCreate = req.body;
   db.order
     .create(orderToCreate)
-    .then((createdOrder) => {
+    .then(async (createdOrder) => {
       if (createdOrder) {
+        // Se tiver uma lista de produtos, cadastra todos de forma sincronizada
+        if (orderToCreate.products) {
+          await Promise.all(
+            orderToCreate.products.map(async (product) => {
+              await db.orderProducts.create({
+                orderId: createdOrder.id,
+                productId: product.id,
+                qtd: product.qtd,
+              });
+            })
+          );
+        }
+
+        // depois recarrega o pedido para trazer os dados do produto
+        await createdOrder.reload({
+          include: [
+            {
+              model: db.products,
+              as: "Products",
+              attributes: [
+                "id",
+                "name",
+                "flavor",
+                "complement",
+                [
+                  db.sequelize.literal('"Products->orderProducts"."qtd"'),
+                  "qtd",
+                ],
+              ],
+              through: {
+                model: db.orderProducts,
+                as: "orderProducts",
+                attributes: [],
+              },
+            },
+          ],
+        });
+
         const jsonResponse = createdOrder.toJSON();
         res.status(201);
         res.send(jsonResponse);
@@ -47,6 +85,7 @@ const postOrders = (req, res) => {
       }
     })
     .catch((erro) => {
+      console.log(erro);
       res.status(502);
       res.send(erro);
     });
