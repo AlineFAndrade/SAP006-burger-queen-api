@@ -8,16 +8,18 @@
   },
   "scripts": {
     "pretest": "eslint .",
-    "start": "nodemon index.js",
-    "lint": "eslint ."
-  },
+    "start": "node index.js",
+    "lint": "eslint .",
+    "build": "sequelize-cli db:migrate --env production && sequelize-cli db:seed:all --env production"
+    },
   "dependencies": {
     "express": "^4.17.1",
     "cors": "^2.8.5",
     "path": "^0.12.7",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^6.5.0"
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
     "eslint": "^7.21.0",
