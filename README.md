@@ -55,36 +55,38 @@ Uma hamburgeria em crescimento precisa de um aplicativo para gerenciar os pedido
   },
   ```
 * 3 - Executando o sequelize migration:
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
-* 4 - npm start para iniciar o projeto.
+
+`npx sequelize-cli db:migrate`
+`npx sequelize-cli db:seed:all`
+
+* 4 - `npm start` para iniciar o projeto.
 
 #### 4.1 Instalação/Deploy no Heroku
 
-* heroku login
-* heroku create aline-burguer-queen-api
-* heroku addons:create heroku-postgresql:hobby-dev 
+`heroku login`
+`heroku create aline-burguer-queen-api`
+`heroku addons:create heroku-postgresql:hobby-dev` 
 
 Alterar o config.json:
 ```
 "production": {
-"use_env_variable": "DATABASE_URL",
-"dialectOptions": {
-"ssl": {
-"rejectUnauthorized": false
-}
-}
-}
+    "use_env_variable": "DATABASE_URL",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
+  }
 ```
 
 Alterar o package.json:
 ```
 "scripts": {
-"pretest": "eslint .",
-"start": "node index.js",
-"lint": "eslint .",
-"build": "sequelize-cli db:migrate --env production && sequelize-cli db:seed:all --env production"
-}
+    "pretest": "eslint .",
+    "start": "node index.js",
+    "lint": "eslint .",
+    "build": "sequelize-cli db:migrate --env production && sequelize-cli db:seed:all --env production"
+    },
 ```
 
 Execute:
