@@ -38,43 +38,48 @@ Uma hamburgeria em crescimento precisa de um aplicativo para gerenciar os pedido
 * `PUT /orders/:orderId`
 * `DELETE /orders/:orderId`
 
-
-
 ## 4. Instalação
 
+* 1 - Instale o Postgres localmente:
+* 2 - Altere o arquivo config.json para conectar com sua base local. Ex: 
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "burgerQueen_api",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": false
+    }
+  },
+* 3 - Executando o sequelize migration:
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
+* 4 - npm start para iniciar o projeto.
 
+#### 4.1 Instalação/Deploy no Heroku
 
+* heroku login
+* heroku create aline-burguer-queen-api
+* heroku addons:create heroku-postgresql:hobby-dev 
 
-<!-- ### 5.2 Implantação (Deployment)
+Alterar o config.json:
+"production": {
+"use_env_variable": "DATABASE_URL",
+"dialectOptions": {
+"ssl": {
+"rejectUnauthorized": false
+}
+}
+}
 
-O código do projeto deverá estar em um repositório no GitHub.
-O _deploy_ para produção deverá ser feito utilizando um serviço de hospedagem como
-o [Heroku](https://www.heroku.com/home), que tem integração com o
-[PostgreSQL](https://www.heroku.com/postgres)
+Alterar o package.json:
+"scripts": {
+"pretest": "eslint .",
+"start": "node index.js",
+"lint": "eslint .",
+"build": "sequelize-cli db:migrate --env production && sequelize-cli db:seed:all --env production"
+}
 
-Cuidado para não subir as chaves de autenticação para o GitHub do projeto ;).
-
-
-#### Criar a documentação da API
-
-Sugerimos o uso do [Swagger](https://swagger.io/docs/specification/about/) ou [JSDoc](https://jsdoc.app/about-getting-started.html)
-para escrever a sua própria documentação
-
-#### Docker
-
-Se quiser, também poderá se aventurar no Docker e dar os primeiros passos com containers.
-
-Um container (que pode ser criado com Docker) serve para garantir que os ambientes
-de desenvolvimento e produção sejam exatamente os mesmos, não importa em que
-sistemas operacional/versão funciona o computador da desenvolvedora.
-Terminando com o famoso (e temido) "na minha máquina funciona".
-
-O Docker cria uma container de um sistema operacional onde podemos definir configurações
-e versões de softwares, e é dentro de um desses containers que podemos testar e executar
-nossos projetos independente do sistema operacional
-que rodamos em nossa máquina física :)
-
-Para este projeto te recomendamos a usar `docker-compose` localmente (em seu
-computador) para executar a aplicação junto com a base de dados. -->
-
-
+Execute:
+git push heroku main para publicar.

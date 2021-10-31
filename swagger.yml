@@ -1,0 +1,309 @@
+openapi: 3.0.0
+info:
+  title: ' Aline Burger Queen API.'
+  description: Documentação API
+  version: 1.0.0
+  contact:
+    email: marson.aline@gmail.com
+paths:
+  /users:
+    get:
+      summary: Listar todos os usuários
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/User'
+    post:
+      summary: Cadastrar usuário
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/User'
+  /users/{uid
+}:
+    get:
+      summary: Exibir usuário
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          description: ID do usuário para retornar
+          required: true
+          schema:
+                type: string
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Atualizar usuário
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          description: ID do usuário para atualizar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/User'
+    delete:
+      summary: Deletar usuário
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          description: Id do usuário que precisa ser deletado
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/NewUser'
+  /products:
+    get:
+      summary: Lista dos produtos
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Product'
+  /products/{productId
+}:
+    get:
+      summary: Listar um produto pelo ID
+      tags:
+        - Products
+      parameters:
+        - name: productId
+          in: path
+          description: ID do produto para retornar
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Product'
+  /orders:
+    get:
+      summary: Listar todos os pedidos
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Order'
+    post:
+      summary: Criar pedido
+      tags:
+        - Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Order'
+  /orders/{orderId
+}:
+    get:
+      summary: Listar um pedido
+      tags:
+        - Orders
+      parameters:
+        - name: orderId
+          in: path
+          description: ID do pedido para retornar
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Order'
+    put:
+      summary: Atualizar status de um pedido
+      parameters:
+        - name: orderId
+          in: path
+          description: ID do pedido para retornar
+          required: true
+          schema:
+            type: string
+      tags:
+        - Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Order'
+    delete:
+      summary: Deletar um pedido
+      parameters:
+        - name: orderId
+          in: path
+          description: ID do pedido para retornar
+          required: true
+          schema:
+            type: string
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Order'
+components:
+  schemas:
+    NewUser:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        restaurant:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        restaurant:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        flavor:
+          type: string
+        complement:
+          type: string
+        price:
+          type: number
+        image:
+          type: string
+        type:
+          type: string
+        subtype:
+          type: string
+    Order:
+      type: object
+      properties:
+        id:
+          type: number
+        client:
+          type: string
+        table:
+          type: number
+        status:
+          type: string
+        processedAt:
+          type: string
+          format: data
+        createdAt:
+          type: string
+          format: data
+        updatedAt:
+          type: string
+          format: data
+        Products:
+          type: object
+          properties:
+            id:
+              type: number
+            name:
+              type: string
+            flavor:
+              type: string
+            complement:
+              type: string
+            qtd:
+              type: number
+    
