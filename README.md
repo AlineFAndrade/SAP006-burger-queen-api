@@ -42,7 +42,8 @@ Uma hamburgeria em crescimento precisa de um aplicativo para gerenciar os pedido
 
 * 1 - Instale o Postgres localmente:
 * 2 - Altere o arquivo config.json para conectar com sua base local. Ex: 
-  "development": {
+ ```
+ "development": {
     "username": "postgres",
     "password": "postgres",
     "database": "burgerQueen_api",
@@ -52,6 +53,7 @@ Uma hamburgeria em crescimento precisa de um aplicativo para gerenciar os pedido
       "ssl": false
     }
   },
+  ```
 * 3 - Executando o sequelize migration:
 npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
@@ -64,6 +66,7 @@ npx sequelize-cli db:seed:all
 * heroku addons:create heroku-postgresql:hobby-dev 
 
 Alterar o config.json:
+```
 "production": {
 "use_env_variable": "DATABASE_URL",
 "dialectOptions": {
@@ -72,14 +75,17 @@ Alterar o config.json:
 }
 }
 }
+```
 
 Alterar o package.json:
+```
 "scripts": {
 "pretest": "eslint .",
 "start": "node index.js",
 "lint": "eslint .",
 "build": "sequelize-cli db:migrate --env production && sequelize-cli db:seed:all --env production"
 }
+```
 
 Execute:
-git push heroku main para publicar.
+`git push heroku main` para publicar.
